@@ -1,0 +1,29 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_ARITH.ALL;
+entity CHIA_1XUNG is
+Port ( CKHT: in STD_LOGIC;
+CK1HZ: out STD_LOGIC);tg
+end CHIA_1XUNG;
+architecture Behavioral of CHIA_1XUNG is
+-- tan so 50MHz
+CONSTANT N: INTEGER := 50000000;
+SIGNAL D1HZ_REG, D1HZ_NEXT: INTEGER RANGE 0 TO N:=1;
+Begin
+--REGISTER D-FF : MACH TUAN TU
+-- Khi co xung ckht thi d1hZ_REG cap nhap tu d1hZ_NEXT
+PROCESS (CKHT)
+BEGIN
+IF FALLING_EDGE (CKHT) THEN D1HZ_REG <= D1HZ_NEXT;
+END IF;
+END PROCESS;
+--NEXT STATE LOGIC: TAO TRANG THAI KE
+-- so sanh d1hZ_REG
+-- d1hZ_REG = N -> gan = 1 (bat dau chu ki moi)
+-- d1hZ_REG != N => tiep tuc +1
+D1HZ_NEXT <= 1 WHEN D1HZ_REG = N ELSE
+D1HZ_REG + 1;
+--OUTOUT LOGIC
+CK1HZ <= '1' WHEN D1HZ_REG < N/2 ELSE
+'0';
+end Behavioral;

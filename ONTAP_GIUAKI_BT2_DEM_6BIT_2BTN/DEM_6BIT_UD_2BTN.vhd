@@ -1,0 +1,42 @@
+-- DEM LEN 8 BIT
+-- RESET MUC 1
+-- ENA_SS MUC 1: DEM, MUC 0: NGUNG
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+entity DEM_6BIT_UD_2BTN is
+Port ( CKHT: in STD_LOGIC;
+		LED: out STD_LOGIC_VECTOR (5 downto 0);
+		SW: in STD_LOGIC_VECTOR(1 DOWnto 0);
+		BTN_N: IN STD_LOGIC_VECTOR(2 DOWNTO 0)
+		);
+end DEM_6BIT_UD_2BTN;
+architecture Behavioral of DEM_6BIT_UD_2BTN is
+SIGNAL ENA_DB, RST: STD_LOGIC;
+SIGNAL ENA_DB_UP, ENA_DB_DW: STD_LOGIC;
+SIGNAL ENA_UD: STD_LOGIC_VECTOR(1 DOWNTO 0);
+SIGNAL BTN_UP, BTN_DW: STD_LOGIC;
+begin
+--	RST <= NOT BTN_N(0);
+	BTN_UP <= NOT BTN_N(1);
+	BTN_DW <= NOT BTN_N(2);
+	ENA_UD <= "01" WHEN BTN_UP = '1' ELSE
+				 "10" WHEN BTN_DW = '1';
+				 
+--	CHIA_1ENA1HZ: ENTITY WORK.CHIA_10ENA
+	CHIA_1ENA1HZ: ENTITY WORK.CHIA_10ENA
+	PORT MAP ( CKHT => CKHT,
+				  ena2hz => ENA_DB_UP,
+				  ENA5HZ => ENA_DB_DW);
+	DEM_6BIT: ENTITY WORK.DEM_6BIT
+	PORT MAP ( CKHT => CKHT,
+					UP => BTN_UP,
+					DW => BTN_DW,
+					ENA_UP => ENA_UD(0),
+					ENA_DW => ENA_UD(1),
+--					RST => RST,
+					ENA_DB_UP => ENA_DB_UP,
+					ENA_DB_DW => ENA_DB_DW,
+					Q => LED);
+--					ENA_SS => SW(0),
+--					ENA_UD => SW(1));
+end Behavioral;

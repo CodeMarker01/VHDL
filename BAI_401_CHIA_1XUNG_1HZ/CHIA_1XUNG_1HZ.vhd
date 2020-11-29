@@ -1,0 +1,13 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+entity CHIA_1XUNG_1HZ is
+	Port ( CLOCK_50: in STD_LOGIC;
+			LEDR: out STD_LOGIC_VECTOR(0 DOWNTO 0));
+end CHIA_1XUNG_1HZ;
+
+architecture Behavioral of CHIA_1XUNG_1HZ is
+begin
+	CHIA_XUNG: ENTITY WORK.CHIA_1XUNG
+	PORT MAP( CKHT => CLOCK_50,
+	CK1HZ => LEDR(0));
+end Behavioral;

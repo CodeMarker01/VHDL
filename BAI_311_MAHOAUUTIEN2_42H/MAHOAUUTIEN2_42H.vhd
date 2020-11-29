@@ -1,0 +1,25 @@
+---2 MACH MA HOA UU TIEN 4 SANG 2, MOI MACH CO MOT TRANG THAI NGO RA TICH CUC,MOT MACH DUNG LENH GAN TIN HIEU DIEU KIEN,
+--- MACH CON LAI DUNG LENH GAN TIN HIEU CO LUA CHON---
+
+---library---
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+---entity---
+entity MAHOAUUTIEN2_42H is
+	Port ( sw: in STD_LOGIC_VECTOR (7 downto 0);
+			led: out STD_LOGIC_VECTOR (5 downto 0));
+end MAHOAUUTIEN2_42H;
+
+---architecture---
+architecture Behavioral of MAHOAUUTIEN2_42H is
+	begin
+		MAHOA_SELECT_INS: ENTITY WORK.MAHOA_SELECT_INS
+			PORT MAP( I => SW(3 DOWNTO 0),
+						 O => LED(1 DOWNTO 0),
+			        ACT => LED(2));
+		MAHOA_CONDITIONAL_INS: ENTITY WORK.MAHOA_CONDITIONAL_INS
+			PORT MAP( I => SW(7 DOWNTO 4),
+			          O => LED(4 DOWNTO 3),
+			        ACT => LED(5));
+end Behavioral;

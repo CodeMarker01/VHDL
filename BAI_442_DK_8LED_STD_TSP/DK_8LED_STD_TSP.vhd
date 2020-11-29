@@ -1,0 +1,24 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity DK_8LED_STD_TSP is
+	Port ( CKHT, BTN_N0, SW0: in STD_LOGIC;
+			LED: out STD_LOGIC_VECTOR(7 downto 0));
+end DK_8LED_STD_TSP;
+
+architecture Behavioral of DK_8LED_STD_TSP is
+SIGNAL ENA_DB, RST: STD_LOGIC;
+signal Q_STD_PST: STD_LOGIC_VECTOR (7 downto 0);
+Begin
+	RST <= NOT BTN_N0;
+	LED <= Q_STD_PST;
+	CHIA_10ENA: ENTITY WORK.CHIA_10ENA
+	PORT MAP ( CKHT => CKHT,
+	ENA5HZ => ENA_DB);
+	LED_STD_PST: ENTITY WORK.LED_STD_TSP
+	PORT MAP ( CKHT => CKHT,
+	ENA_DB => ENA_DB,
+	RST => RST,
+	OE => SW0,
+	Q => Q_STD_PST);
+end Behavioral;

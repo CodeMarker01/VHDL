@@ -1,0 +1,24 @@
+-- DEM NHI PHAN 4 BIT DONG BO
+-- HIEN THI 4 LED DONG
+-- NHAN BUTTON -> MACH DEM +1
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+entity DEM_4BIT_BTN_CACH_1 is
+Port ( CKHT: in STD_LOGIC;
+		 BTN_N: in STD_LOGIC_VECTOR(1 downto 0);
+		 LED: out STD_LOGIC_VECTOR (3 downto 0));
+end DEM_4BIT_BTN_CACH_1;
+architecture Behavioral of DEM_4BIT_BTN_CACH_1 is
+SIGNAL ENA_D, ENA, BTN1, RST: STD_LOGIC;
+Begin
+	RST <= NOT BTN_N(0);
+	BTN1 <= NOT BTN_N(1);
+	DEBOUNCE_BTN: ENTITY WORK.DEBOUNCE_BTN
+	PORT MAP ( CKHT => CKHT,
+					BTN => BTN1,
+					DB_TICK => ENA_D);
+	LAM_HEP_XUNG: ENTITY WORK.LAM_HEP_XUNG
+	PORT MAP ( CKHT => CKHT,
+					D => ENA_D,
+					Q => ENA);
+end Behavioral;

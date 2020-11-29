@@ -1,0 +1,38 @@
+-- DEM LEN 8 BIT
+-- RESET MUC 1
+-- ENA_SS MUC 1: DEM, MUC 0: NGUNG
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+entity MOD50_UD is
+Port ( CKHT: in STD_LOGIC;
+		LED: out STD_LOGIC_VECTOR (5 downto 0);
+		SW: in STD_LOGIC;
+		BTN_N: IN STD_LOGIC_VECTOR(1 DOWNTO 0)
+		);
+end MOD50_UD;
+architecture Behavioral of MOD50_UD is
+SIGNAL RST: STD_LOGIC;
+SIGNAL ENA_DB, ENA_UD: STD_LOGIC;
+SIGNAL BTN_UD: STD_LOGIC;
+begin
+	RST <= NOT BTN_N(0);
+	BTN_UD <= NOT BTN_N(1);
+--	CHIA_1ENA1HZ: ENTITY WORK.CHIA_10ENA
+	CHIA_1ENA1HZ: ENTITY WORK.CHIA_10ENA
+	PORT MAP ( CKHT => CKHT,
+				  ena5hz => ENA_DB);
+	DEM_1BIT_BTN_UD: ENTITY WORK.DEM_1BIT_BTN
+	PORT MAP ( CKHT => CKHT,
+				  RST => RST,
+				  BTN => BTN_UD,
+				  Q => ENA_UD );
+	DEM_MOD50: ENTITY WORK.MOD50_UD_CHILD
+	PORT MAP ( CKHT => CKHT,
+					RST => RST,
+					ENA_DB => ENA_DB,
+					Q => LED,
+					ENA_UD => ENA_UD,
+					SW => SW
+					);
+	
+end Behavioral;
