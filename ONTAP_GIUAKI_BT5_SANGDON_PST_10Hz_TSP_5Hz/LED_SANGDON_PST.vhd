@@ -39,17 +39,19 @@ Begin
 								DL_NEXT <= 11;
 		ELSIF ENA_DB = '1' THEN
 			IF Y_REG = "000000000000" THEN Y_NEXT <= "000000000001";
-			ELSIF DL_REG = 0 THEN X_NEXT <= (OTHERS => '0');
-											Y_NEXT <= (OTHERS => '0');
-											DL_NEXT <= 11;
-											DC_NEXT <= 11;
 			ELSIF DC_REG = 0 THEN X_NEXT <= X_REG OR Y_REG;
 											Y_NEXT <= "000000000001";
 											DL_NEXT <= DL_REG - 1;
 											DC_NEXT <= DL_REG - 1;
-			ELSE Y_NEXT <= Y_REG(10 DOWNTO 0) & '0';
+			ELSIF DL_REG = 0 THEN X_NEXT <= (OTHERS => '0');
+											Y_NEXT <= (OTHERS => '0');
+											DL_NEXT <= 11;
+											DC_NEXT <= 11;
+				END IF;
+			
+		ELSE Y_NEXT <= Y_REG(10 DOWNTO 0) & '0';
 					DC_NEXT <= DC_REG - 1;
-			END IF;
+			
 		END IF;
 	END PROCESS;
 	Q <= X_REG OR Y_REG WHEN OE = '1' ELSE

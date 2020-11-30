@@ -1,0 +1,30 @@
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity CHIA_10ENA_1HZ_1MHZ is
+    Port ( CKHT : in  STD_LOGIC;
+           ENA1HZ, ENA2HZ, ENA5HZ, ENA10HZ : OUT  STD_LOGIC;
+           ENA20HZ, ENA25HZ, ENA50HZ, ENA100HZ : OUT  STD_LOGIC;
+           ENA1KHZ, ENA1MHZ : OUT  STD_LOGIC);
+end CHIA_10ENA_1HZ_1MHZ;
+
+architecture Behavioral of CHIA_10ENA_1HZ_1MHZ is
+
+begin
+CHIA_ENA: ENTITY WORK.CHIA_10ENA
+				PORT MAP(
+						CKHT => CKHT,
+						ENA1HZ => ENA1HZ,
+						ENA2HZ => ENA2HZ,
+						ENA5HZ => ENA5HZ,
+						ENA10HZ => ENA10HZ,
+						ENA20HZ => ENA20HZ,
+						ENA25HZ => ENA25HZ,
+						ENA50HZ => ENA50HZ,
+						ENA100HZ => ENA100HZ,
+						ENA1KHZ => ENA1KHZ,
+						ENA1MHZ => ENA1MHZ);
+
+end Behavioral;
+

@@ -1,0 +1,32 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity SANGTATDAN_BTN is
+	Port ( CKHT: in STD_LOGIC;
+			BTN_N: in STD_LOGIC_VECTOR(1 downto 0);
+			LED: out STD_LOGIC_VECTOR (7 downto 0));
+end SANGTATDAN_BTN;
+
+architecture Behavioral of SANGTATDAN_BTN is
+SIGNAL ENA_D, ENA, BTN1, RST: STD_LOGIC;
+Begin
+	RST <= NOT BTN_N(0);
+	BTN1 <= NOT BTN_N(1);
+	
+DEBOUNCE_BTN: ENTITY WORK.DEBOUNCE_BTN
+	PORT MAP ( CKHT => CKHT,
+	BTN => BTN1,
+	DB_TICK => ENA_D);
+	
+LAM_HEP_XUNG: ENTITY WORK.LAM_HEP_XUNG
+	PORT MAP ( CKHT => CKHT,
+	D => ENA_D,
+	Q => ENA);
+	
+LED_STD_PST: ENTITY WORK.LED_STD_PST
+	PORT MAP ( CKHT => CKHT,
+	ENA_DB => ENA,
+	RST => RST,
+	Q => LED);
+	
+End Behavioral;

@@ -1,0 +1,24 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity DK_8LED_SANGDON_TSP is
+	Port ( CKHT, BTN_N0: in STD_LOGIC;
+			LED: out STD_LOGIC_VECTOR (7 downto 0));
+end DK_8LED_SANGDON_TSP;
+
+architecture Behavioral of DK_8LED_SANGDON_TSP is
+SIGNAL ENA_DB, RST: STD_LOGIC;
+signal Q_SD_PST: STD_LOGIC_VECTOR (7 downto 0);
+begin
+	RST <= NOT BTN_N0;
+	LED <= Q_SD_PST;
+CHIA_10ENA: ENTITY WORK.CHIA_10ENA
+	PORT MAP ( CKHT => CKHT,
+	ENA5HZ => ENA_DB);
+LED_SANGDON_TSP: ENTITY WORK.LED_SANGDON_TSP
+	PORT MAP ( CKHT => CKHT,
+	RST => RST,
+	ENA_DB => ENA_DB,
+	OE => '1',
+	Q => Q_SD_PST);
+end Behavioral;

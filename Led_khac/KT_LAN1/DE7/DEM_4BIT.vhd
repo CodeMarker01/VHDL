@@ -1,0 +1,33 @@
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_ARITH.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
+
+entity DEM_4BIT is
+    Port (CKHT, RST, ENA_DB, BTN_SS: in  STD_LOGIC;
+			GT_CAI:    IN   STD_LOGIC_VECTOR (3 downto 0);
+    		Q:    out    STD_LOGIC_VECTOR (3 downto 0));
+end DEM_4BIT;
+
+architecture Behavioral of DEM_4BIT is
+SIGNAL 	Q_REG, Q_NEXT,GT: STD_LOGIC_VECTOR(3 DOWNTO 0);
+SIGNAL 	Q1_REG, Q1_NEXT: STD_LOGIC;
+BEGIN
+	PROCESS (CKHT, RST)
+	BEGIN	
+		IF 	RST='1' 	THEN 				Q_REG	<=	(OTHERS => '0');
+												Q1_REG	<=	'0';
+		ELSIF	FALLING_EDGE (CKHT)  THEN  	Q_REG	<=	Q_NEXT;
+														Q1_REG	<=	Q1_NEXT;
+		END IF;
+	END PROCESS;
+	
+	Q_NEXT <= 	Q_REG + 1 WHEN ENA_DB = '1'	AND Q1_REG ='1' AND Q_REG<GT_CAI ELSE
+					"0000"WHEN ENA_DB = '1'	AND Q1_REG ='1' AND Q_REG >= GT_CAI ELSE
+					Q_REG ; 
+	Q1_NEXT <= NOT Q1_REG WHEN BTN_SS = '1'	 ELSE
+					Q1_REG ; 				
+	Q	<= Q_REG;
+end Behavioral;
+

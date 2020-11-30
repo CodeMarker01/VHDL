@@ -37,7 +37,7 @@ Begin
 		IF OE = '0' THEN X_NEXT <= (OTHERS=>'0');
 								Y_NEXT <= (OTHERS=>'0');
 								DL_NEXT <= 11;
-								DL_NEXT <= 11;
+								DC_NEXT <= 11;
 		ELSIF ENA_DB = '1' THEN
 		IF Y_REG = "000000000000" THEN Y_NEXT <= "100000000000";
 		ELSIF DL_REG = 0 THEN X_NEXT <= (OTHERS => '0');
